@@ -1,0 +1,83 @@
+<!--
+jQuery  ajax()를 사용하여 화면에 이용자 정보를 표시하는 기능을 작성
+화면 출력 예시(table 태그 사용)
+아이디 | 전화번호
+smith | 010-1234-5678
+-->
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery AJAX Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 20px;
+            align-content: center;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto; /* 표를 가운데 정렬 */
+        }
+        th, td {
+            padding: 10px;
+            text-align: center; /* 텍스트를 가운데 정렬 */
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>이용자 정보</h1>
+    <table id="userTable" border="1">
+        <thead>
+            <tr>
+                <th>아이디</th>
+                <th>전화번호</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>smith</td>
+                <td>010-1234-5678</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            // AJAX 요청
+            $.ajax({
+                url: 'members.json', // JSON 파일 경로
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // JSON 데이터를 반복하여 테이블에 추가
+                    data.forEach(function (user) {
+                        const row = `
+                            <tr>
+                                <td>${user.id}</td>
+                                <td>${user.phone}</td>
+                            </tr>
+                        `;
+                        $('#userTable tbody').append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('데이터를 가져오는 중 오류 발생:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
